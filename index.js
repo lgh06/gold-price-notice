@@ -40,6 +40,7 @@ var genTxt = (price) => ({
 });
 
 var last_sent_time = 0;
+var last_sent_time2 = 0;
 function sendMail(price) {
   var txt = genTxt(price);
   var now = Date.now();
@@ -55,14 +56,17 @@ function sendMail(price) {
     });
   }else{
     console.log(`触发告警，但不足二十分钟,${moment(now).format('YYYYMMDD-HH:mm:ss')}`)
-    sendmail({
-        from: 'ccc@hapleo.com',
-        to: 'hnnk@qq.com',
-        subject: txt.subject,
-        html: txt.plain,
-      }, function(err, reply) {
-
-    });
+    if(now - last_sent_time2 > 2*60*1000){ //自制邮件 2分钟发一次
+      sendmail({
+          from: 'ccc@hapleo.com',
+          to: 'hnnk@qq.com',
+          subject: txt.subject,
+          text: txt.plain,
+        }, function(err, reply) {
+          last_sent_time2 = Date.now();
+          console.log(`self mail sent at ${moment(last_sent_time2).format('YYYYMMDD-HH:mm:ss')}`)
+      });
+    }
   }
 
 }
