@@ -3,7 +3,9 @@ var request = require('request');
 var moment = require('moment');
 var sendmail = require('sendmail')({silent: true});
 
-var share_api = 'http://quote.fx678.com/symbo?exchName=WGJS&symbol=XAU';
+//var share_api = 'http://quote.fx678.com/symbo?exchName=WGJS&symbol=XAU';
+var share_api = 'http://api.q.fx678.com/quotes.php?exchName=WGJS&symbol=XAU';
+
 var req_url = share_api+'&st='+Math.random();
 
 var current_price = 0;
